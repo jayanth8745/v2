@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: your-backend-name
+    runtime: python
+    buildCommand: |
+      apt-get update
+      apt-get install -y libjpeg-dev zlib1g-dev libpng-dev libfreetype6-dev
+      pip install -r requirements.txt
+    startCommand: python app.py
+    envVars:
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: JWT_SECRET_KEY
+        sync: false
+      - key: MONGODB_URI
+        sync: false
