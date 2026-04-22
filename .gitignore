@@ -1,0 +1,44 @@
+#Virtual environmrnt 
+.venv/
+venv/
+#Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+#IDE
+.vscode/
+
+#Logs
+*.log
+
+#Deployments
+node_modules/
+dist/
+build/
+
+#Env files
+.env
+.env.local
+.env.*.local
+.env.*
+
+#Project-specific
+.DS_Store
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.iml
+*.sln
+*.suo
+*.ntvs_analysis.dat
+*.njsproj
+*.sln.docstates
+*.sw?
+uploads/
+static/images/
+
+#OS generated files
+Thumbs.db
+Desktop.ini
