@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Personal Memory Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-brain"></i>
+                <span>Personal Memory Assistant</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link active">
+                        <i class="fas fa-th-large"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="logoutLink" class="nav-link">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <button id="darkModeToggle" class="dark-mode-toggle" title="Toggle Dark Mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </li>
+            </ul>
+            <div class="nav-user">
+                <div class="user-avatar" id="userAvatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <span id="userName" class="user-name">User</span>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content dashboard-content">
+        <div class="container">
+            <!-- Dashboard Header -->
+            <section class="dashboard-header">
+                <div class="welcome-section">
+                    <h1>Welcome back, <span id="userDisplayName">User</span>!</h1>
+                    <p>Here's what's happening with your memories today</p>
+                </div>
+                <div class="quick-actions">
+                    <button id="quickAddMemory" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Quick Add
+                    </button>
+                    <button id="voiceAddMemory" class="btn btn-secondary">
+                        <i class="fas fa-microphone"></i>
+                        Voice Add
+                    </button>
+                </div>
+            </section>
+
+            <!-- Stats Overview -->
+            <section class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalMemories">0</h3>
+                            <p>Total Memories</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-tags"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalCategories">0</h3>
+                            <p>Categories</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="favoriteMood">Happy</h3>
+                            <p>Favorite Mood</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="recentMemories">0</h3>
+                            <p>This Week</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Main Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- Memory Creation Panel -->
+                <section class="dashboard-panel memory-creation-panel">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-plus-circle"></i> Create New Memory</h2>
+                        <button class="panel-toggle" data-panel="memory-creation">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="panel-content">
+                        <form id="memoryForm" class="memory-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="memoryTitle">Title</label>
+                                    <input type="text" id="memoryTitle" placeholder="Memory title..." required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="memoryDate">Date</label>
+                                    <input type="date" id="memoryDate" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="memoryDescription">Description</label>
+                                <textarea id="memoryDescription" rows="4" placeholder="Describe your memory..." required></textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="memoryMood">Mood</label>
+                                    <select id="memoryMood">
+                                        <option value="neutral">Neutral</option>
+                                        <option value="happy">Happy</option>
+                                        <option value="sad">Sad</option>
+                                        <option value="angry">Angry</option>
+                                        <option value="excited">Excited</option>
+                                        <option value="peaceful">Peaceful</option>
+                                        <option value="love">Love</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="memoryCategory">Category</label>
+                                    <select id="memoryCategory">
+                                        <option value="general">General</option>
+                                        <option value="work">Work</option>
+                                        <option value="family">Family</option>
+                                        <option value="friends">Friends</option>
+                                        <option value="travel">Travel</option>
+                                        <option value="food">Food</option>
+                                        <option value="health">Health</option>
+                                        <option value="education">Education</option>
+                                        <option value="hobby">Hobby</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="memoryTags">Tags (comma separated)</label>
+                                <input type="text" id="memoryTags" placeholder="important, urgent, birthday...">
+                            </div>
+                            <div class="form-group">
+                                <label for="memoryImage">Image</label>
+                                <input type="file" id="memoryImage" accept="image/*">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-full">
+                                <i class="fas fa-save"></i>
+                                Save Memory
+                            </button>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- Recent Memories Panel -->
+                <section class="dashboard-panel recent-memories-panel">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-clock"></i> Recent Memories</h2>
+                        <button class="panel-toggle" data-panel="recent-memories">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="panel-content">
+                        <div id="recentMemoriesList" class="memories-list">
+                            <!-- Recent memories will be loaded here -->
+                        </div>
+                        <div class="panel-footer">
+                            <a href="#" class="btn btn-secondary btn-full">View All Memories</a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Calendar Panel -->
+                <section class="dashboard-panel calendar-panel">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-calendar-alt"></i> Memory Calendar</h2>
+                        <button class="panel-toggle" data-panel="calendar">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="panel-content">
+                        <div id="miniCalendar" class="mini-calendar">
+                            <!-- Mini calendar will be rendered here -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Search Panel -->
+                <section class="dashboard-panel search-panel">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-search"></i> Search Memories</h2>
+                        <button class="panel-toggle" data-panel="search">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="panel-content">
+                        <div class="search-container">
+                            <div class="search-bar">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="searchInput" placeholder="Search your memories...">
+                            </div>
+                            <div class="filter-options">
+                                <select id="categoryFilter">
+                                    <option value="">All Categories</option>
+                                    <option value="general">General</option>
+                                    <option value="work">Work</option>
+                                    <option value="family">Family</option>
+                                    <option value="friends">Friends</option>
+                                    <option value="travel">Travel</option>
+                                    <option value="food">Food</option>
+                                    <option value="health">Health</option>
+                                    <option value="education">Education</option>
+                                    <option value="hobby">Hobby</option>
+                                </select>
+                                <select id="moodFilter">
+                                    <option value="">All Moods</option>
+                                    <option value="neutral">Neutral</option>
+                                    <option value="happy">Happy</option>
+                                    <option value="sad">Sad</option>
+                                    <option value="angry">Angry</option>
+                                    <option value="excited">Excited</option>
+                                    <option value="peaceful">Peaceful</option>
+                                    <option value="love">Love</option>
+                                </select>
+                            </div>
+                            <div id="searchResults" class="search-results">
+                                <!-- Search results will appear here -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Voice Assistant Panel -->
+                <section class="dashboard-panel voice-panel">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-microphone"></i> Voice Assistant</h2>
+                        <button class="panel-toggle" data-panel="voice">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="panel-content">
+                        <div class="voice-interface">
+                            <button id="voiceToggle" class="voice-toggle-btn">
+                                <i class="fas fa-microphone"></i>
+                                <span>Start Recording</span>
+                            </button>
+                            <div id="voiceStatus" class="voice-status">
+                                Click to start voice recording
+                            </div>
+                            <div id="voiceTranscript" class="voice-transcript">
+                                <!-- Voice transcript will appear here -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Mood Tracking Panel -->
+                <section class="dashboard-panel mood-panel">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-heart"></i> Mood Tracking</h2>
+                        <button class="panel-toggle" data-panel="mood">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="panel-content">
+                        <div id="moodChart" class="mood-chart">
+                            <!-- Mood chart will be rendered here -->
+                        </div>
+                        <div class="mood-summary">
+                            <h3>Recent Mood Analysis</h3>
+                            <div id="moodStats" class="mood-stats">
+                                <!-- Mood statistics will appear here -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Memory Modal -->
+    <div id="memoryModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalBody">
+                <!-- Memory details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <span id="notificationText"></span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
