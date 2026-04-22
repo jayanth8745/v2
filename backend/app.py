@@ -12,7 +12,9 @@ import uuid
 from bson.objectid import ObjectId
 import json
 
-load_dotenv()
+# Only load .env file in development
+if os.path.exists('.env'):
+    load_dotenv()
 
 app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'your-secret-key-here')
@@ -21,12 +23,12 @@ jwt = JWTManager(app)
 
 GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', '')
 
-CORS(app, origins=['http://localhost:8000', 'http://127.0.0.1:8000'],
+CORS(app, origins=['http://localhost:8000', 'http://127.0.0.1:8000', 'http://personalassisent.netlify.app'],
      supports_credentials=True,
      allow_headers=['Content-Type', 'Authorization'])
 
 # MongoDB connection
-MONGO_URI = os.getenv('MONGO_URI', 'mongodb://localhost:27017/')
+MONGO_URI = os.getenv('MONGO_URI', 'mongodb+srv://jayanth8745_db_user:<db_password>@personalassisent.dm8xmpe.mongodb.net/?appName=PersonalAssisent')
 client = MongoClient(MONGO_URI)
 db = client['memory_assistant']
 users_collection = db['users']
@@ -35,8 +37,9 @@ memories_collection = db['memories']
 # Create text index for search
 memories_collection.create_index([("title", "text"), ("description", "text"), ("tags", "text")])
 
-# Upload folder
-UPLOAD_FOLDER = '../uploads'
+# Upload folder# Use absolute path for production
+UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -676,4 +679,12 @@ def parse_natural_language_query(query, user_id):
     return query_type, filters, response_text
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    import os
+    # Create uploads folder if it doesn't exist
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+    
+    port = int(os.environ.get('PORT', 5000))
+    print(f"Server running on port {port}")
+    print(f"Google Client ID configured: {'Yes' if GOOGLE_CLIENT_ID else 'No'}")
+    print(f"MongoDB URI configured: {'Yes' if MONGO_URI else 'No'}")
+    app.run(debug=False, host='0.0.0.0', port=port)
