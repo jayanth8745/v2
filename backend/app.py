@@ -23,20 +23,31 @@ jwt = JWTManager(app)
 
 GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', '')
 
-CORS(app, origins=['http://localhost:8000', 'http://127.0.0.1:8000', 'http://personalassisent.netlify.app'],
-     supports_credentials=True,
-     allow_headers=['Content-Type', 'Authorization'])
+CORS(app, origins=[
+    'http://localhost:8000', 
+    'http://127.0.0.1:8000', 
+    'https://your-actual-netlify-url.netlify.app'  # Use HTTPS!
+], supports_credentials=True,
+   allow_headers=['Content-Type', 'Authorization'])
 
 # MongoDB connection
-MONGO_URI = os.getenv('MONGO_URI', 'mongodb+srv://jayanth8745_db_user:<db_password>@personalassisent.dm8xmpe.mongodb.net/?appName=PersonalAssisent')
-client = MongoClient(MONGO_URI)
+# MongoDB connection - ONLY use environment variable, no default
+# MongoDB connection - ONLY from environment variable
+MONGODB_URI = os.getenv('MONGODB_URI')
+if not MONGODB_URI:
+    raise ValueError("MONGODB_URI environment variable is not set. Please add it in Render dashboard.")
+    
+client = MongoClient(MONGODB_URI)
 db = client['memory_assistant']
 users_collection = db['users']
 memories_collection = db['memories']
 
 # Create text index for search
-memories_collection.create_index([("title", "text"), ("description", "text"), ("tags", "text")])
-
+try:
+    memories_collection.create_index([("title", "text"), ("description", "text"), ("tags", "text")])
+except Exception as e:
+    print(f"Note: Index creation issue: {e}")
+    
 # Upload folder# Use absolute path for production
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
