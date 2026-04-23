@@ -47,7 +47,6 @@ try:
     memories_collection.create_index([("title", "text"), ("description", "text"), ("tags", "text")])
 except Exception as e:
     print(f"Note: Index creation issue: {e}")
-    
 # Upload folder# Use absolute path for production
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -697,5 +696,5 @@ if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     print(f"Server running on port {port}")
     print(f"Google Client ID configured: {'Yes' if GOOGLE_CLIENT_ID else 'No'}")
-    print(f"MongoDB URI configured: {'Yes' if MONGO_URI else 'No'}")
-    app.run(debug=False, host='0.0.0.0', port=port)
+print(f"MongoDB URI configured: {'Yes' if MONGODB_URI else 'No'}")    
+app.run(debug=False, host='0.0.0.0', port=port)
